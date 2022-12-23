@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Header, Panel, TodoList } from "./components/index";
+import { Box } from "@mui/material";
+import "./App.css";
+import { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export type Todo = {
+   id: number;
+   name: string;
+   description: string;
+   checked: boolean;
+};
+
+const App: React.FC = () => {
+   const [todoList, setTodoList] = useState([
+      { id: 1, name: "task1", description: "text1", checked: false },
+      { id: 2, name: "task2", description: "text2", checked: false },
+      { id: 3, name: "task3", description: "text3", checked: true },
+   ]);
+
+   const onDeleteTodo = (id: Todo["id"]) => {
+      setTodoList(todoList.filter((todolist) => todolist.id !== id));
+   };
+
+   return (
+      <>
+         <div className="App">
+            <Box display="flex" flexDirection={"column"} width={600}>
+               <Header />
+               <Panel />
+               <TodoList todoList={todoList} onDeleteTodo={onDeleteTodo} />
+            </Box>
+         </div>
+      </>
+   );
+};
 
 export default App;
