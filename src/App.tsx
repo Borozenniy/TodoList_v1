@@ -22,15 +22,25 @@ const App: React.FC = () => {
       setTodoList(todoList.filter((todolist) => todolist.id !== id));
    };
 
+   //TODO Закінчити фунцію по зміні boolean значення
+   const onCheckedTodo = (checked: Todo["checked"]) => {
+      setTodoList(todoList.filter((todo) => todo.checked));
+   };
+
    return (
       <>
          <div className="App">
             <Box display="flex" flexDirection={"column"} width={600}>
                <Header />
                <Panel />
-               <TodoList todoList={todoList} onDeleteTodo={onDeleteTodo} />
+               <TodoList
+                  todoList={todoList}
+                  onDeleteTodo={onDeleteTodo}
+                  onCheckedTodo={onCheckedTodo}
+               />
             </Box>
          </div>
+         c
       </>
    );
 };

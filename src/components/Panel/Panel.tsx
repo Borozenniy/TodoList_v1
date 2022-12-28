@@ -8,7 +8,8 @@ const DEFAULT_TODO = { name: "", description: "" };
 export const Panel = () => {
    const [todo, setTodo] = useState(DEFAULT_TODO);
 
-   const onClickHandler = () => {
+   // TODO: check function
+   const onClickHandlerWithCheck = () => {
       if (todo.name && todo.description) {
          console.log("@", todo);
          setTodo(DEFAULT_TODO);
@@ -69,7 +70,7 @@ export const Panel = () => {
                endIcon={<SendIcon />}
                variant="contained"
                size="large"
-               onClick={onClickHandler}
+               onClick={onClickHandlerWithCheck}
             >
                ADD
             </Button>
