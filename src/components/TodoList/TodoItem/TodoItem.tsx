@@ -6,13 +6,15 @@ import type { Todo } from "../../../App";
 interface TodoItemProps {
    todo: Todo;
    onDeleteTodo: (id: Todo["id"]) => void;
-   onCheckedTodo: (checked: Todo["checked"]) => void;
+   onCheckedTodo: (id: Todo["id"]) => void;
+   onEdit: (id: Todo["id"]) => void;
 }
 
 export const TodoItem: React.FC<TodoItemProps> = ({
    todo,
    onDeleteTodo,
    onCheckedTodo,
+   onEdit,
 }) => {
    return (
       <Paper
@@ -44,7 +46,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
                gutterBottom
                sx={{
                   cursor: "pointer",
-                  textDecorationLine: todo.checked ? "underline" : "none",
+                  textDecorationLine: todo.checked ? "line-through" : "none",
                }}
             >
                {todo.name}
@@ -52,7 +54,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
          </Box>
          <Box display={"flex"} alignItems={"center"}>
             <Button
-               onClick={() => onCheckedTodo(todo.checked)}
+               onClick={() => onCheckedTodo(todo.id)}
                size="small"
                variant="contained"
                color="success"
@@ -60,8 +62,13 @@ export const TodoItem: React.FC<TodoItemProps> = ({
             >
                Success
             </Button>
-            <Button size="small" variant="outlined" color="error">
-               Error
+            <Button
+               size="small"
+               variant="outlined"
+               color="primary"
+               onClick={() => onEdit(todo.id)}
+            >
+               Edit
             </Button>
             <IconButton
                onClick={() => onDeleteTodo(todo.id)}

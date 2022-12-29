@@ -3,19 +3,30 @@ import { TextField, Box, Button, Paper } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
+import { Todo } from "../../App";
 
 const DEFAULT_TODO = { name: "", description: "" };
-export const Panel = () => {
+
+interface PanelProps {
+   onAddTodo: ({ name, description }: Omit<Todo, "id" | "checked">) => void;
+}
+
+export const Panel: React.FC<PanelProps> = ({ onAddTodo }) => {
    const [todo, setTodo] = useState(DEFAULT_TODO);
 
    // TODO: check function
    const onClickHandlerWithCheck = () => {
       if (todo.name && todo.description) {
+         onAddTodo(todo);
          console.log("@", todo);
          setTodo(DEFAULT_TODO);
       } else {
-         console.log("One of fields is emply");
+         alert("One of fields is emply");
       }
+   };
+   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, name } = event.target;
+      setTodo({ ...todo, [name]: value });
    };
 
    /* 
@@ -33,10 +44,7 @@ export const Panel = () => {
       };
    }, []);
    */
-   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { value, name } = event.target;
-      setTodo({ ...todo, [name]: value });
-   };
+
    return (
       <>
          <Paper
