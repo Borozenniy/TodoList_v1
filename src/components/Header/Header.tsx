@@ -1,7 +1,11 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+   todoCount: number;
+}
+
+export const Header: React.FC<HeaderProps> = ({ todoCount }) => {
    return (
       <Box textAlign="left">
          <Typography
@@ -10,7 +14,7 @@ export const Header: React.FC = () => {
             gutterBottom
             sx={{ fontSize: 18 }}
          >
-            Todo List
+            Todo List. Amount: {todoCount}
          </Typography>
       </Box>
    );

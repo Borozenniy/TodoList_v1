@@ -10,6 +10,7 @@ interface TodoListProps {
    onDeleteTodo: (id: Todo["id"]) => void;
    onCheckedTodo: (id: Todo["id"]) => void;
    onEdit: (id: Todo["id"]) => void;
+   onChangeTodo: ({ name, description }: Omit<Todo, "id" | "checked">) => void;
 }
 export const TodoList: React.FC<TodoListProps> = ({
    todoList,
@@ -17,6 +18,7 @@ export const TodoList: React.FC<TodoListProps> = ({
    onDeleteTodo,
    onCheckedTodo,
    onEdit,
+   onChangeTodo,
 }) => {
    return (
       <Box display={"flex"} flexDirection={"column-reverse"}>
@@ -26,7 +28,7 @@ export const TodoList: React.FC<TodoListProps> = ({
                   <EditTodoItem
                      key={todo.id}
                      todo={todo}
-                     onChangeTodo={(todo) => console.log("changed", todo)}
+                     onChangeTodo={onChangeTodo}
                   />
                );
             return (

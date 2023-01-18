@@ -11,16 +11,20 @@ export type Todo = {
    description: string;
    checked: boolean;
 };
+const DEFAULT_TODO_LIST = [
+   { id: 1, name: "task1", description: "text1", checked: false },
+   { id: 2, name: "task2", description: "text2", checked: false },
+   { id: 3, name: "task3", description: "text3", checked: true },
+];
 
 const App: React.FC = () => {
-   //? useState for Edit
+   //* useState for Edit
+
    const [editTodoId, seteditTodoId] = React.useState<number | null>(null);
 
-   const [todoList, setTodoList] = useState([
-      { id: 1, name: "task1", description: "text1", checked: false },
-      { id: 2, name: "task2", description: "text2", checked: false },
-      { id: 3, name: "task3", description: "text3", checked: true },
-   ]);
+   const [todoList, setTodoList] = useState(DEFAULT_TODO_LIST);
+
+   //? All of function
 
    const onEdit = (id: Todo["id"]) => {
       seteditTodoId(id);
@@ -29,9 +33,7 @@ const App: React.FC = () => {
       setTodoList(todoList.filter((todolist) => todolist.id !== id));
    };
 
-   //? Add *TODO*
-
-   const onAddTodo = ({ name, description }: Omit<Todo, "id " | "checked">) => {
+   const onAddTodo = ({ name, description }: Omit<Todo, "id" | "checked">) => {
       setTodoList([
          ...todoList,
          {
@@ -41,6 +43,20 @@ const App: React.FC = () => {
             checked: false,
          },
       ]);
+   };
+   const onChangeTodo = ({
+      name,
+      description,
+   }: Omit<Todo, "id" | "checked">) => {
+      setTodoList(
+         todoList.map((todo) => {
+            if (todo.id === editTodoId) {
+               return { ...todo, name, description };
+            }
+            return todo;
+         })
+      );
+      seteditTodoId(null);
    };
 
    //TODO Закінчити фунцію по зміні boolean значення
@@ -65,8 +81,7 @@ const App: React.FC = () => {
       <>
          <div className="App">
             <Box display="flex" flexDirection={"column"} width={600}>
-               <Header />
-
+               <Header todoCount={todoList.length} />
                {/* Need to fix this */}
                <Panel onAddTodo={onAddTodo} />
                <TodoList
@@ -75,6 +90,7 @@ const App: React.FC = () => {
                   onDeleteTodo={onDeleteTodo}
                   onCheckedTodo={onCheckedTodo}
                   onEdit={onEdit}
+                  onChangeTodo={onChangeTodo}
                />
             </Box>
          </div>
